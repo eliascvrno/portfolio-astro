@@ -1,0 +1,40 @@
+---
+// LangSwitch.astro
+---
+
+<button id="lang-toggle" class="relative inline-flex items-center h-6 rounded-full w-12 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#181818] focus:ring-zinc-400 bg-zinc-700 hover:bg-zinc-600 ml-4" aria-label="Toggle language">
+  <span class="sr-only">Toggle language</span>
+  <span class="text-[10px] font-bold absolute left-1.5 lang-es">ES</span>
+  <span class="text-[10px] font-bold absolute left-1.5 lang-en text-zinc-400">ES</span>
+  <span class="text-[10px] font-bold absolute right-1.5 lang-en">EN</span>
+  <span class="text-[10px] font-bold absolute right-1.5 lang-es text-zinc-400">EN</span>
+  <span id="lang-toggle-thumb" class="inline-block w-4 h-4 transform bg-white rounded-full transition-transform duration-300 translate-x-1"></span>
+</button>
+
+<script is:inline>
+  const toggleBtn = document.getElementById('lang-toggle');
+  const toggleThumb = document.getElementById('lang-toggle-thumb');
+  const htmlRoot = document.documentElement;
+
+  const updateToggleUI = (lang) => {
+    if (lang === 'en') {
+      toggleThumb.classList.remove('translate-x-1');
+      toggleThumb.classList.add('translate-x-7');
+    } else {
+      toggleThumb.classList.remove('translate-x-7');
+      toggleThumb.classList.add('translate-x-1');
+    }
+  };
+
+  // Initial state setup
+  const currentLang = htmlRoot.lang || 'es';
+  updateToggleUI(currentLang);
+
+  toggleBtn.addEventListener('click', () => {
+    const isEn = htmlRoot.lang === 'en';
+    const newLang = isEn ? 'es' : 'en';
+    htmlRoot.lang = newLang;
+    localStorage.setItem('lang', newLang);
+    updateToggleUI(newLang);
+  });
+</script>

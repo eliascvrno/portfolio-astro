@@ -3,7 +3,7 @@ const title = Astro.props.title;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" id="html-root">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -12,13 +12,17 @@ const title = Astro.props.title;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 		<title>{title}</title>
+		<script is:inline>
+			const savedLang = localStorage.getItem('lang') || 'es';
+			document.documentElement.lang = savedLang;
+		</script>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
 	html,
 	body {
 		margin: 0;
@@ -28,4 +32,7 @@ const title = Astro.props.title;
 		background-color: #181818;
 		color: #fff;
 	}
+
+	html[lang="es"] .lang-en { display: none !important; }
+	html[lang="en"] .lang-es { display: none !important; }
 </style>
